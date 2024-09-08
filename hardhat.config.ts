@@ -8,6 +8,9 @@ dotenv.config({path: path.resolve(__dirname, ".env")});
 const { PRIVATE_KEY, API_KEY, API_ARBITRUM_KEY, API_BSC_KEY, PRIVATE_KEY_MAINNET, API_POLYGON_KEY } = process.env;
 
 const config: HardhatUserConfig = {
+  paths: {
+    tests: "tests"
+  },
   solidity: {
     version: "0.8.19",
     settings: {
