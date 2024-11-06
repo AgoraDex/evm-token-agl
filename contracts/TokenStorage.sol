@@ -22,11 +22,12 @@ contract TokenStorage is Initializable {
         uint64 balance64RequiredForPrev;
         uint64 balance64RequiredForNext;
         uint16 boostK;
-        uint112 _reserved;
+        uint8 maxLbForAga;
+        uint104 _reserved;
         /// 256
     }
 
-    uint internal constant MAX_LEVEL = 6;
+    uint internal constant MAX_LEVEL = 7;
 
     mapping(address => uint256) internal _balances;
 

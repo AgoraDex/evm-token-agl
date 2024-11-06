@@ -78,4 +78,10 @@ contract AgoraToken is TokenStorage, ERC20Capped, Ownable {
         boostK = _levelInfo(level).boostK;
     }
 
+    function getLevelInfo2(address account) external view returns (uint16 level, uint16 boostK, uint8 maxLbForAga) {
+        level = _accountInfo(account).level;
+        boostK = _levelInfo(level).boostK;
+        maxLbForAga = _levelInfo(level).maxLbForAga;
+    }
+
 }

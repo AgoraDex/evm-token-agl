@@ -1,9 +1,8 @@
 import { extendEnvironment, HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import { profiles } from "./scripts/profiles";
 import dotenv from "dotenv";
 import path from "path";
-import { boolean } from "hardhat/internal/core/params/argumentTypes";
-import { BaseContract, ContractFactory } from "ethers";
 dotenv.config({path: path.resolve(__dirname, ".env")});
 const { PRIVATE_KEY, API_KEY, API_ARBITRUM_KEY, API_BSC_KEY, PRIVATE_KEY_MAINNET, API_POLYGON_KEY } = process.env;
 
@@ -63,6 +62,11 @@ const config: HardhatUserConfig = {
       url: "https://polygon-mumbai.blockpi.network/v1/rpc/public",
       accounts: [`${PRIVATE_KEY}`]
     },
+    polygonAmoy: {
+      chainId: 80002,
+      url: "https://rpc-amoy.polygon.technology/",
+      accounts: [`${PRIVATE_KEY}`]
+    },
     polygon: {
       chainId: 137,
       url: "https://polygon-mainnet.infura.io/v3/46568c7016394a69bd69da9861541e70",
@@ -79,6 +83,7 @@ const config: HardhatUserConfig = {
       "arbitrumSepolia": `${API_ARBITRUM_KEY}`,
       "polygon": `${API_POLYGON_KEY}`,
       "polygonMumbai": `${API_POLYGON_KEY}`,
+      "polygonAmoy": `${API_POLYGON_KEY}`,
       "bsc": `${API_BSC_KEY}`,
     },
     customChains: [
@@ -97,6 +102,14 @@ const config: HardhatUserConfig = {
           apiURL: "https://api.etherscan.io/api",
           browserURL: "https://etherscan.io"
         }
+      },
+      {
+        network: "polygonAmoy",
+        chainId: 80002,
+        urls: {
+          apiURL: "https://api-amoy.polygonscan.com/api",
+          browserURL: "https://amoy.polygonscan.com"
+        }
       }
     ]
   }
@@ -110,8 +123,10 @@ extendEnvironment( (hre) => {
   hre["ARBITRUM_CHAIN_ID"] = 42161;
   hre["POLYGON_MUMBAI_CHAIN_ID"] = 80001;
   hre["POLYGON_CHAIN_ID"] = 137;
+  hre["profiles"] = profiles;
+  hre["profile"] = profiles[hre.network.name];
 
-  console.info(`Connected to network: ${hre.network.name}`);
+  console.info(`Connected to network: ${hre.network.name}, loaded profile:`, profiles[hre.network.name]);
 });
 
 export default config;
